@@ -3,5 +3,6 @@ node_modules
 .nyc_output
 *.log
 *.js
+*.js.map
 coverage
 samples

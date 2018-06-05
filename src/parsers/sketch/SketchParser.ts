@@ -24,8 +24,8 @@ export class SketchParser implements IParser {
 		});
 	}
 
-	loadPackage(data: string) {
-		return this.zipWrapper.loadAsync(data).then(zip => {
+	loadPackage(pkg: string) {
+		return this.zipWrapper.loadAsync(pkg).then(zip => {
 			const promises = [];
 			const paths = Object.keys(zip.files);
 			for (const path of paths) {

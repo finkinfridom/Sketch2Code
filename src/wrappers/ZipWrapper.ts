@@ -1,8 +1,8 @@
 import jsZip = require("jszip");
 
 export class ZipWrapper implements IZipWrapper {
-	async loadAsync(data: string): Promise<jsZip> {
-		return await jsZip.loadAsync(data);
+	async loadAsync(pkg: string): Promise<jsZip> {
+		return await jsZip.loadAsync(pkg);
 	}
 	async readText(zip: jsZip, path: string): Promise<string> {
 		return await zip.file(path).async("text");
@@ -10,6 +10,6 @@ export class ZipWrapper implements IZipWrapper {
 }
 
 export interface IZipWrapper {
-	loadAsync(data: string): Promise<any>;
+	loadAsync(pkg: string): Promise<any>;
 	readText(zip: jsZip, path: string): Promise<string>;
 }

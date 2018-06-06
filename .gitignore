@@ -6,3 +6,5 @@ node_modules
 *.js.map
 coverage
 samples
+dist
+.env

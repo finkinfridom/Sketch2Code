@@ -2,7 +2,7 @@ import { IZipWrapper } from "../../src/wrappers/ZipWrapper";
 import jsZip = require("jszip");
 
 export class MockZipWrapper implements IZipWrapper {
-	readText(jsZip: jsZip, path: string): Promise<string> {
+	readText(jsZip: jsZip, path: string): Promise<any> {
 		return new Promise((reject, resolve) =>
 			resolve(this.zip.files[path].content)
 		);

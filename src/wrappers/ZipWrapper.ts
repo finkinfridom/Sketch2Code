@@ -1,11 +1,11 @@
 import jsZip = require("jszip");
 
 export class ZipWrapper implements IZipWrapper {
-	async loadAsync(pkg: string): Promise<jsZip> {
+	async loadAsync(pkg: string | Uint8Array): Promise<jsZip> {
 		return await jsZip.loadAsync(pkg, { createFolders: true });
 	}
 	async readText(zip: jsZip, path: string): Promise<any> {
-		return new Promise((reject, resolve) => {
+		return new Promise((resolve, reject) => {
 			zip
 				.file(path)
 				.async("text")
@@ -22,6 +22,6 @@ export class ZipFile {
 }
 
 export interface IZipWrapper {
-	loadAsync(pkg: string): Promise<any>;
+	loadAsync(pkg: string | Uint8Array): Promise<any>;
 	readText(zip: jsZip, path: string): Promise<ZipFile>;
 }

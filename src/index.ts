@@ -13,7 +13,7 @@ import fs = require("fs");
 import path = require("path");
 import { SketchParser } from "./parsers/sketch/SketchParser";
 import { FSWrapper } from "./wrappers/FSWrapper";
-import { ZipWrapper } from "./wrappers/ZipWrapper";
+import { ZipWrapper, ZipFile } from "./wrappers/ZipWrapper";
 const distFolder = process.env.DIST_FOLDER || "dist";
 if (!fs.existsSync(distFolder)) {
 	fs.mkdirSync(distFolder);
@@ -32,12 +32,12 @@ glob("samples/**/*.sketch", (err, files) => {
 			fs.mkdirSync(outFolder);
 			dbg("Created dir:" + outFolder);
 		}
-		const distFile = path.join(outFolder, parsedPath.name + ".zip");
+		const distFile = path.join(outFolder, parsedPath.base);
 		fs.copyFileSync(file, distFile);
 		dbg("copied sketch to " + distFile);
-		const fileData = parser.read(distFile);
-		const zipFiles = await parser.loadPackage(await fileData);
-		dbg("found files:" + zipFiles);
+		const fileData = await parser.read(distFile);
+		const zipFiles = await parser.loadPackage(fileData);
+		dbg("found files:", zipFiles);
 		const metaFile = zipFiles.find(zFile => {
 			return zFile.file === "meta.json";
 		});
@@ -46,6 +46,7 @@ glob("samples/**/*.sketch", (err, files) => {
 			return;
 		}
 		dbg(metaFile.file);
+
 		// const fileContent = await parser.read(metaFile.content);
 		// dbg("fileContent" + JSON.stringify(fileContent));
 	});

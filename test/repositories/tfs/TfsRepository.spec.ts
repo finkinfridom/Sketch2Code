@@ -18,25 +18,15 @@ const repository = new TfsRepository(
 	mockHttpWrapper
 );
 describe("TfsRepository", () => {
-	it("should loadComponents", done => {
-		repository
-			.loadComponents()
-			.then(components => {
-				expect(components).to.be.lengthOf(1);
-				expect(components[0].name).to.be.equal("component1");
-			})
-			.catch(() => done());
+	it("should loadComponents", async () => {
+		const _components = await repository.loadComponents();
+		expect(_components).to.be.lengthOf(1);
+		expect(_components[0].name).to.be.equal("component1");
 	});
-	it("should findComponent", done => {
-		repository
-			.loadComponents()
-			.then(components => {
-				const component = repository.findComponent("component1");
-				expect(component).to.not.be.undefined;
-				expect((component || ({} as IComponent)).name).to.be.equal(
-					"component1"
-				);
-			})
-			.catch(() => done());
+	it("should findComponent", async () => {
+		const _components = repository.loadComponents();
+		const component = repository.findComponent("component1");
+		expect(component).to.not.be.undefined;
+		expect((component || ({} as IComponent)).name).to.be.equal("component1");
 	});
 });

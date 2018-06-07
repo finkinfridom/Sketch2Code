@@ -5,10 +5,12 @@ export class FSWrapper implements IFSWrapper {
 		options:
 			| string
 			| {
-					encoding: string;
+					encoding?: string;
 					flag?: string | undefined;
-			  },
-		callback: (err: NodeJS.ErrnoException, data: string) => void
+			  }
+			| null
+			| undefined,
+		callback: (err: NodeJS.ErrnoException, data: string | Buffer) => void
 	): void {
 		fs.readFile(path, options, callback);
 	}
@@ -20,9 +22,11 @@ export interface IFSWrapper {
 		options:
 			| string
 			| {
-					encoding: string;
+					encoding?: string;
 					flag?: string | undefined;
-			  },
-		callback: (err: NodeJS.ErrnoException, data: string) => void
+			  }
+			| null
+			| undefined,
+		callback: (err: NodeJS.ErrnoException, data: string | Buffer) => void
 	): void;
 }

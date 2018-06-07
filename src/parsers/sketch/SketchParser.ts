@@ -13,12 +13,12 @@ export class SketchParser implements IParser {
 		this.parserRegexp = new RegExp(/<([\w-]*)>/gi);
 	}
 	read(file?: string): Promise<any> {
-		return new Promise((reject, resolve) => {
+		return new Promise((resolve, reject) => {
 			if (!file) {
 				reject(new Error("file argument is undefined"));
 				return;
 			}
-			this.fsWrapper.readFile(file, { encoding: "utf8" }, (err, data) => {
+			this.fsWrapper.readFile(file, undefined, (err, data) => {
 				if (err) {
 					reject(err);
 					return;
@@ -28,7 +28,7 @@ export class SketchParser implements IParser {
 		});
 	}
 
-	loadPackage(pkg: string) {
+	loadPackage(pkg: string | Uint8Array) {
 		return this.zipWrapper.loadAsync(pkg).then(zip => {
 			const promises = [];
 			const paths = Object.keys(zip.files);

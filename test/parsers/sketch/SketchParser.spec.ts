@@ -15,24 +15,16 @@ const zipData = {
 const mockZipWrapper = new MockZipWrapper(undefined, zipData);
 const parser = new SketchParser(mockFsWrapper, mockZipWrapper);
 describe("SketchParser", () => {
-	it("should read file", done => {
-		parser
-			.read("test_file")
-			.then(_readData =>
-				expect(_readData).to.be.equal(
-					"<test></test><another-test></another-test>"
-				)
-			)
-			.catch(() => done());
+	it("should read file", async () => {
+		const _readData = await parser.read("test_file");
+		expect(_readData.toString()).to.be.equal(
+			"<test></test><another-test></another-test>"
+		);
 	});
-	it("should loadPackage", done => {
-		parser
-			.loadPackage("test_file.zip")
-			.then(_zip => {
-				expect(_zip).to.be.lengthOf(1);
-				expect(_zip[0]).to.be.equal(data);
-			})
-			.catch(() => done());
+	it("should loadPackage", async () => {
+		const _zip = await parser.loadPackage("test_file.zip");
+		expect(_zip).to.be.lengthOf(1);
+		expect(_zip[0]).to.be.equal(data);
 	});
 	it("should parse symbols", () => {
 		const symbols = parser.parse(data) as ISymbol[];

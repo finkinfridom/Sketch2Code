@@ -1,13 +1,13 @@
-import { IZipWrapper } from "../../src/wrappers/ZipWrapper";
+import { IZipWrapper, ZipFile } from "../../src/wrappers/ZipWrapper";
 import jsZip = require("jszip");
 
 export class MockZipWrapper implements IZipWrapper {
-	readText(jsZip: jsZip, path: string): Promise<any> {
+	constructor(readonly err?: any, readonly zip?: any) {}
+	readText(zipFile: jsZip.JSZipObject): Promise<any> {
 		return new Promise((resolve, reject) =>
-			resolve(this.zip.files[path].content)
+			resolve(this.zip.files[zipFile.name].content)
 		);
 	}
-	constructor(readonly err?: any, readonly zip?: any) {}
 	async loadAsync(data: string): Promise<any> {
 		return new Promise((resolve, reject) => {
 			if (this.err) {

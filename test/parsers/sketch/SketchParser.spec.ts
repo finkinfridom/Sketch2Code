@@ -4,15 +4,21 @@ import { SketchParser } from "../../../src/parsers/sketch/SketchParser";
 import { MockFSWrapper } from "../../mocks/MockFSWrapper";
 import { ISymbol } from "../../../src/symbols/ISymbol";
 import { MockZipWrapper } from "../../mocks/MockZipWrapper";
-
+import { JSZipObject } from "jszip";
 const data = "<test></test><another-test></another-test>";
 const mockFsWrapper = new MockFSWrapper(undefined, data);
-const zipData = {
-	files: {
-		test_file: { content: data }
+class zipData {
+	private files: any;
+	constructor(readonly data: string) {
+		this.files = {
+			test_file: { content: data }
+		};
 	}
-};
-const mockZipWrapper = new MockZipWrapper(undefined, zipData);
+	file(path: string) {
+		return { name: path };
+	}
+}
+const mockZipWrapper = new MockZipWrapper(undefined, new zipData(data));
 const parser = new SketchParser(mockFsWrapper, mockZipWrapper);
 describe("SketchParser", () => {
 	it("should read file", async () => {

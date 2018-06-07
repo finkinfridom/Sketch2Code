@@ -37,7 +37,7 @@ glob("samples/**/*.sketch", (err, files) => {
 		dbg("copied sketch to " + distFile);
 		const fileData = await parser.read(distFile);
 		const zipFiles = await parser.loadPackage(fileData);
-		dbg("found files:", zipFiles);
+		dbg("found # files:", zipFiles.length);
 		const metaFile = zipFiles.find(zFile => {
 			return zFile.file === "meta.json";
 		});
@@ -45,9 +45,15 @@ glob("samples/**/*.sketch", (err, files) => {
 			dbg("metaFile is undefined");
 			return;
 		}
-		dbg(metaFile.file);
-
-		// const fileContent = await parser.read(metaFile.content);
-		// dbg("fileContent" + JSON.stringify(fileContent));
+		if (!metaFile.content) {
+			dbg("metaFile.content is undefined");
+		}
+		const metaContent = JSON.parse(metaFile.content || "");
+		const artboards = metaContent.pagesAndArtboards;
+		const artboardKeys = Object.keys(artboards);
+		for (const key of artboardKeys) {
+			const artboard = artboards[key].artboards;
+		}
+		dbg("fileContent" + JSON.stringify(metaContent, undefined, 2));
 	});
 });

@@ -33,7 +33,7 @@ export class SketchParser implements IParser {
 			const promises = [];
 			const paths = Object.keys(zip.files);
 			for (const path of paths) {
-				promises.push(this.zipWrapper.readText(zip, path));
+				promises.push(this.zipWrapper.readText(zip.file(path)));
 			}
 			return Promise.all(promises);
 		});

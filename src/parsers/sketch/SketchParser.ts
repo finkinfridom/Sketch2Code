@@ -2,7 +2,7 @@ import { IParser } from "../IParser";
 import { ISymbol } from "../../symbols/ISymbol";
 import { IFSWrapper } from "../../wrappers/FSWrapper";
 import { SketchSymbol } from "../../symbols/sketch/SketchSymbol";
-import { IZipWrapper } from "../../wrappers/ZipWrapper";
+import { IZipWrapper, ZipFile } from "../../wrappers/ZipWrapper";
 
 export class SketchParser implements IParser {
 	private parserRegexp: RegExp;
@@ -51,5 +51,9 @@ export class SketchParser implements IParser {
 			symbolList.push(new SketchSymbol(group));
 		}
 		return symbolList;
+	}
+	async getZipFiles(file?: string): Promise<ZipFile[]> {
+		const fileData = await this.read(file);
+		return await this.loadPackage(fileData);
 	}
 }

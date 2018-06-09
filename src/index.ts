@@ -14,6 +14,7 @@ import path = require("path");
 import { SketchParser } from "./parsers/sketch/SketchParser";
 import { FSWrapper } from "./wrappers/FSWrapper";
 import { ZipWrapper, ZipFile } from "./wrappers/ZipWrapper";
+import { SymbolFactory } from "./symbols/sketch/SymbolFactory";
 const distFolder = process.env.DIST_FOLDER || "dist";
 if (!fs.existsSync(distFolder)) {
 	fs.mkdirSync(distFolder);
@@ -35,8 +36,7 @@ glob("samples/**/*.sketch", (err, files) => {
 		const distFile = path.join(outFolder, parsedPath.base);
 		fs.copyFileSync(file, distFile);
 		dbg("copied sketch to " + distFile);
-		const fileData = await parser.read(distFile);
-		const zipFiles = await parser.loadPackage(fileData);
+		const zipFiles = await parser.getZipFiles(distFile);
 		dbg("found # files:", zipFiles.length);
 		const metaFile = zipFiles.find(zFile => {
 			return zFile.file === "meta.json";
@@ -48,12 +48,10 @@ glob("samples/**/*.sketch", (err, files) => {
 		if (!metaFile.content) {
 			dbg("metaFile.content is undefined");
 		}
-		const metaContent = JSON.parse(metaFile.content || "");
-		const artboards = metaContent.pagesAndArtboards;
-		const artboardKeys = Object.keys(artboards);
-		for (const key of artboardKeys) {
-			const artboard = artboards[key].artboards;
-		}
-		dbg("fileContent" + JSON.stringify(metaContent, undefined, 2));
+		const symbols = SymbolFactory.parse(metaFile.content);
+		dbg(symbols);
+		const distMetaFile = path.join(outFolder, parsedPath.name + ".meta");
+		fs.writeFileSync(distMetaFile, SymbolFactory.toString(symbols));
+		// dbg("fileContent" + JSON.stringify(metaContent, undefined, 2));
 	});
 });

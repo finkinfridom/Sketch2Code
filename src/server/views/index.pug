@@ -1,0 +1,10 @@
+extends _bootstrap
+
+append body
+	.container
+		h1= title
+		form(action="/process",method="POST",enctype="multipart/form-data")
+			.form-group
+				label Choose a file
+				input(type="file",accept=".sketch",id="sketch",name="sketch").form-control
+			button.btn.btn-success.btn-block Process

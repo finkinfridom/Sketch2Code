@@ -1,21 +1,15 @@
-/*
-//load input files
-//parse loaded files
-//look in repository for component
-//save component in repo
-*/
 import dotenv = require("dotenv");
 dotenv.config();
 import glob = require("glob");
 import debug = require("debug");
-const dbg = debug("main");
+const dbg = debug("cli");
 import fs = require("fs");
 import path = require("path");
 import { SketchParser } from "./parsers/sketch/SketchParser";
 import { FSWrapper } from "./wrappers/FSWrapper";
 import { ZipWrapper, ZipFile } from "./wrappers/ZipWrapper";
 import { SymbolFactory } from "./symbols/sketch/SymbolFactory";
-const distFolder = process.env.DIST_FOLDER || "dist";
+const distFolder = process.env.DIST_FOLDER || "./dist";
 if (!fs.existsSync(distFolder)) {
 	fs.mkdirSync(distFolder);
 	dbg("created distFolder" + distFolder);
@@ -52,6 +46,5 @@ glob("samples/**/*.sketch", (err, files) => {
 		dbg(symbols);
 		const distMetaFile = path.join(outFolder, parsedPath.name + ".meta");
 		fs.writeFileSync(distMetaFile, SymbolFactory.toString(symbols));
-		// dbg("fileContent" + JSON.stringify(metaContent, undefined, 2));
 	});
 });

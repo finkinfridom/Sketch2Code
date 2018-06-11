@@ -1,0 +1,7 @@
+extends _bootstrap
+
+append body
+	.container
+		h1= "Preview - " + (folder) 
+		code #{metaContent}
+		a(href="/").btn.btn-info.btn-block.mt-5 Back

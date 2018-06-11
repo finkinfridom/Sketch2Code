@@ -8,3 +8,8 @@ append body
 				label Choose a file
 				input(type="file",accept=".sketch",id="sketch",name="sketch").form-control
 			button.btn.btn-success.btn-block Process
+	.container.mt-5
+		h2 Distribution
+		.list-group
+			each dist in dists
+				a(href='/dist/'+(dist) class="list-group-item list-group-item-action")= dist

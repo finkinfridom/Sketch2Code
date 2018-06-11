@@ -12,6 +12,8 @@ import { FSWrapper } from "../../wrappers/FSWrapper";
 import { ZipWrapper } from "../../wrappers/ZipWrapper";
 import { SymbolFactory } from "../../symbols/sketch/SymbolFactory";
 const app = express();
+app.set("view engine", "pug");
+app.set("views", "./src/server/views");
 const upload = multer({ dest: "uploads/" });
 const distFolder = process.env.DIST_FOLDER || "./dist";
 
@@ -23,6 +25,20 @@ export class Upload {
 		}
 	}
 	get routes() {
+		app.get("/dist/:folder", (req, res) => {
+			const folder = req.params.folder;
+			fs.readFile(
+				path.join(distFolder, folder, [folder, ".meta"].join("")),
+				{ encoding: "utf8" },
+				(err, data) => {
+					res.render("dist", {
+						title: "Sketch2Code - " + folder,
+						folder,
+						metaContent: data
+					});
+				}
+			);
+		});
 		app.post("/process", upload.single("sketch"), async (req, res, next) => {
 			if (req.file) {
 				dbg(util.inspect(req.file));

@@ -16,7 +16,7 @@ app.set("view engine", "pug");
 app.set("views", "./src/server/views");
 const upload = multer({ dest: "uploads/" });
 const distFolder = process.env.DIST_FOLDER || "./dist";
-
+const parser = new SketchParser(new FSWrapper(), new ZipWrapper());
 export class Upload {
 	constructor() {
 		if (!fs.existsSync(distFolder)) {
@@ -31,10 +31,11 @@ export class Upload {
 				path.join(distFolder, folder, [folder, ".meta"].join("")),
 				{ encoding: "utf8" },
 				(err, data) => {
+					const symbols = parser.parse(data);
 					res.render("dist", {
 						title: "Sketch2Code - " + folder,
 						folder,
-						metaContent: data
+						symbols
 					});
 				}
 			);
@@ -49,7 +50,6 @@ export class Upload {
 				fs.exists(req.file.path, async (exists: any) => {
 					if (exists) {
 						const file = req.file.path;
-						const parser = new SketchParser(new FSWrapper(), new ZipWrapper());
 						const parsedPath = path.parse(file);
 						const outFolder = path.join(distFolder, parsedPath.name);
 						if (!fs.existsSync(outFolder)) {

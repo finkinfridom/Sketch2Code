@@ -2,7 +2,7 @@ extends _bootstrap
 
 append body
 	.container
-		h1= title
+		h1.mt-5= title
 		form(action="/process",method="POST",enctype="multipart/form-data")
 			.form-group
 				label Choose a file

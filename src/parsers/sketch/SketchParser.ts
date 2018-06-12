@@ -10,7 +10,7 @@ export class SketchParser implements IParser {
 		readonly fsWrapper: IFSWrapper,
 		readonly zipWrapper: IZipWrapper
 	) {
-		this.parserRegexp = new RegExp(/<([\w-]*)>/gi);
+		this.parserRegexp = new RegExp(/<([\w-]*) (attributes=(["\w\[\]]*))>/gim);
 	}
 	read(file?: string): Promise<any> {
 		return new Promise((resolve, reject) => {
@@ -42,13 +42,18 @@ export class SketchParser implements IParser {
 	parse(data: string): ISymbol[] {
 		const symbolList = [] as ISymbol[];
 		while (true) {
+			this.parserRegexp.lastIndex = 0;
 			const match = this.parserRegexp.exec(data);
 			if (!match) {
 				break;
 			}
-			const group = match[1];
+			const name = match[1];
+			console.log(name, match);
 			data = data.replace(match[0], "");
-			symbolList.push(new SketchSymbol(group));
+			const attributes = match[3];
+			symbolList.push(
+				new SketchSymbol(name, attributes ? JSON.parse(attributes) : undefined)
+			);
 		}
 		return symbolList;
 	}

@@ -5,7 +5,9 @@ import { MockFSWrapper } from "../../mocks/MockFSWrapper";
 import { ISymbol } from "../../../src/symbols/ISymbol";
 import { MockZipWrapper } from "../../mocks/MockZipWrapper";
 import { JSZipObject } from "jszip";
-const data = "<test></test><another-test></another-test>";
+const data = "<test attributes=></test><anotherTest attributes=></anotherTest>";
+const multipleMetas =
+	'<metas><videoPlayer attributes=></videoPlayer><photoGallery attributes=></photoGallery><mediaObject attributes=["horizontal"]></mediaObject><headlineStack attributes=></headlineStack><mediaObject attributes=["vertical"]></mediaObject></metas>';
 const mockFsWrapper = new MockFSWrapper(undefined, data);
 class zipData {
 	private files: any;
@@ -24,7 +26,7 @@ describe("SketchParser", () => {
 	it("should read file", async () => {
 		const _readData = await parser.read("test_file");
 		expect(_readData.toString()).to.be.equal(
-			"<test></test><another-test></another-test>"
+			"<test attributes=></test><anotherTest attributes=></anotherTest>"
 		);
 	});
 	it("should loadPackage", async () => {
@@ -36,6 +38,13 @@ describe("SketchParser", () => {
 		const symbols = parser.parse(data) as ISymbol[];
 		expect(symbols).to.be.lengthOf(2);
 		expect(symbols[0].name).to.be.equal("test");
-		expect(symbols[1].name).to.be.equal("another-test");
+		expect(symbols[1].name).to.be.equal("anotherTest");
+	});
+	it("should parse multiple symbols", () => {
+		const symbols = parser.parse(multipleMetas) as ISymbol[];
+		expect(symbols).to.be.lengthOf(5);
+		expect(symbols[0].name).to.be.equal("videoPlayer");
+		expect(symbols[1].name).to.be.equal("photoGallery");
+		expect(symbols[2].name).to.be.equal("mediaObject");
 	});
 });

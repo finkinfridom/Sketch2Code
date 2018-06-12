@@ -2,6 +2,10 @@ extends _bootstrap
 
 append body
 	.container
-		h1= "Preview - " + (folder) 
-		code #{metaContent}
+		h1.mb-5.mt-5= "Preview - " + (folder) 
+		each symbol in symbols
+			.card.bg-light.mb-3
+				.card-body.text-center
+					.card-title.font-weight-bold= "name: " + symbol.name
+					.card-text= "attributes: " + (symbol.attributes||"N/A")
 		a(href="/").btn.btn-info.btn-block.mt-5 Back

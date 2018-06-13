@@ -48,7 +48,6 @@ export class SketchParser implements IParser {
 				break;
 			}
 			const name = match[1];
-			console.log(name, match);
 			data = data.replace(match[0], "");
 			const attributes = match[3];
 			symbolList.push(

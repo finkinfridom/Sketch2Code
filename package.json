@@ -51,7 +51,6 @@
 		"cache": true
 	},
 	"dependencies": {
-		"axios": "^0.18.0",
 		"debug": "^3.1.0",
 		"dotenv": "^6.0.0",
 		"express": "^4.16.3",

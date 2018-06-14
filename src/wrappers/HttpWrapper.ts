@@ -1,10 +1,23 @@
-import axios from "axios";
-
+import https = require("https");
+import { RequestOptions } from "http";
 export class HttpWrapper implements IHttpWrapper {
-	async get(url: string): Promise<any> {
-		return axios.get(url);
+	async get(options: RequestOptions): Promise<any> {
+		return new Promise((resolve, reject) => {
+			https
+				.get(options, res => {
+					const chunks = [] as Buffer[];
+					res.on("data", (chunk: Buffer) => {
+						chunks.push(chunk);
+					});
+					res.on("end", () => {
+						const buffer = Buffer.concat(chunks);
+						resolve(buffer.toString());
+					});
+				})
+				.on("error", reject);
+		});
 	}
 }
 export interface IHttpWrapper {
-	get(url: string): Promise<any>;
+	get(options: RequestOptions): Promise<any>;
 }

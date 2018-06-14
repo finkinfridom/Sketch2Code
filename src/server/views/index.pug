@@ -3,13 +3,14 @@ extends _bootstrap
 append body
 	.container
 		h1.mt-5= title
-		form(action="/process",method="POST",enctype="multipart/form-data")
+		form(action="/upload/process",method="POST",enctype="multipart/form-data")
 			.form-group
 				label Choose a file
 				input(type="file",accept=".sketch",id="sketch",name="sketch").form-control
 			button.btn.btn-success.btn-block Process
-	.container.mt-5
-		h2 Distribution
-		.list-group
-			each dist in dists
-				a(href='/dist/'+(dist) class="list-group-item list-group-item-action")= dist
+	if dists.length
+		.container.mt-5
+			h2 Distribution
+			.list-group
+				each dist in dists
+					a(href='/dist/'+(dist) class="list-group-item list-group-item-action")= dist

@@ -1,7 +1,7 @@
 import dotenv = require("dotenv");
 dotenv.config();
 import debug = require("debug");
-const dbg = debug("routes");
+const dbg = debug("routes:upload");
 import * as util from "util";
 import * as express from "express";
 import fs = require("fs");
@@ -25,21 +25,6 @@ export class Upload {
 		}
 	}
 	get routes() {
-		app.get("/dist/:folder", (req, res) => {
-			const folder = req.params.folder;
-			fs.readFile(
-				path.join(distFolder, folder, [folder, ".meta"].join("")),
-				{ encoding: "utf8" },
-				(err, data) => {
-					const symbols = parser.parse(data);
-					res.render("dist", {
-						title: "Sketch2Code - " + folder,
-						folder,
-						symbols
-					});
-				}
-			);
-		});
 		app.post("/process", upload.single("sketch"), async (req, res, next) => {
 			if (req.file) {
 				dbg(util.inspect(req.file));

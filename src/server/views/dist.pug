@@ -2,10 +2,25 @@ extends _bootstrap
 
 append body
 	.container
-		h1.mb-5.mt-5= "Preview - " + (folder) 
-		each symbol in symbols
-			.card.bg-light.mb-3
-				.card-body.text-center
-					.card-title.font-weight-bold= "name: " + symbol.name
-					.card-text= "attributes: " + (symbol.attributes||"N/A")
+		h1.mb-5.mt-2= "Preview - " + (folder) 		
+		form(action="/dist/"+folder+"/repo",method="GET")
+			.form-group
+				label Choose a repo
+				input(type="text",id="url",name="url").form-control
+			button.btn.btn-success.btn-block Load
+		.container.mt-5
+			h2.mb-2= "Symbols"
+			each symbol in symbols
+				.card.bg-light.mb-3
+					.card-body.text-center
+						.card-title.font-weight-bold= "name: " + symbol.name
+						.card-text= "attributes: " + (symbol.attributes||"N/A")				
+		if components.length
+			.container.mt-5
+				h2.mb-2= "Components"				
+				each component in components
+					.card.bg-light.mb-3
+						.card-body
+							.card-title.font-weight-bold= "name: " + component.name
+							pre.card-text= component.code
 		a(href="/").btn.btn-info.btn-block.mt-5 Back

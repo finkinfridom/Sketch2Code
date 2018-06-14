@@ -23,4 +23,5 @@ append body
 						.card-body
 							.card-title.font-weight-bold= "name: " + component.name
 							pre.card-text= component.code
+							a.btn.btn-info(href=component.publicURL,target=component.name) Download
 		a(href="/").btn.btn-info.btn-block.mt-5 Back

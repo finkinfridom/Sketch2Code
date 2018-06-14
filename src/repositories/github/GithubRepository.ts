@@ -40,7 +40,9 @@ export class GithubRepository implements IRepository {
 				await this.traverseRepoContent(item.url);
 			}
 		} else {
-			this.components.push(new GithubComponent(body.content, body.name));
+			this.components.push(
+				new GithubComponent(body.content, body.name, body.download_url)
+			);
 		}
 	}
 	findComponent(name: string): IComponent | undefined {

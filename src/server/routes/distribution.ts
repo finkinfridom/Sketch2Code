@@ -12,13 +12,14 @@ import { HttpWrapper } from "../../wrappers/HttpWrapper";
 import { GithubRepository } from "../../repositories/github/GithubRepository";
 import { TfsRepository } from "../../repositories/tfs/TfsRepository";
 import { IComponent } from "../../repositories/IComponent";
+import { ISymbol } from "../../symbols/ISymbol";
 const app = express();
 app.set("view engine", "pug");
 app.set("views", "./src/server/views");
 const distFolder = process.env.DIST_FOLDER || "./dist";
 const parser = new SketchParser(new FSWrapper(), new ZipWrapper());
 const httpWrapper = new HttpWrapper();
-const getSymbols = async (folder: string) => {
+const getSymbols = (folder: string): Promise<ISymbol[]> => {
 	return new Promise((resolve, reject) => {
 		fs.readFile(
 			path.join(distFolder, folder, [folder, ".meta"].join("")),
@@ -59,6 +60,12 @@ export class Distribution {
 			} catch (e) {
 				dbg(e);
 			}
+			symbols.forEach((symbol: ISymbol) => {
+				const componentForSymbol = components.find(
+					c => c.name.toLowerCase() === symbol.name.toLowerCase()
+				);
+				symbol.component = componentForSymbol;
+			});
 			res.render("dist", {
 				title: "Sketch2Code - " + folder,
 				folder,

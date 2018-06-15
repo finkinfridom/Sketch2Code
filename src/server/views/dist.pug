@@ -12,14 +12,16 @@ append body
 			h2.mb-2= "Symbols"
 			each symbol in symbols
 				.card.bg-light.mb-3
-					.card-body.text-center
+					.card-body
 						.card-title.font-weight-bold= "name: " + symbol.name
-						.card-text= "attributes: " + (symbol.attributes||"N/A")				
+						.card-text= "attributes: " + (symbol.attributes||"N/A")			
+						if symbol.component
+							a(href="#"+symbol.component.name) See component
 		if components.length
 			.container.mt-5
 				h2.mb-2= "Components"				
 				each component in components
-					.card.bg-light.mb-3
+					.card.bg-light.mb-3(id=component.name)
 						.card-body
 							.card-title.font-weight-bold= "name: " + component.name
 							pre.card-text= component.code

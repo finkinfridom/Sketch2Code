@@ -23,7 +23,7 @@
 		"ts-node": "^8.3.0",
 		"tslint": "^5.10.0",
 		"tslint-config-prettier": "^1.18.0",
-		"typescript": "^2.9.1"
+		"typescript": "^3.5.3"
 	},
 	"scripts": {
 		"lint": "tslint -c tslint.json 'src/**/*.ts'",

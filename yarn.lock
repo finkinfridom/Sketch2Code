@@ -165,9 +165,9 @@
   version "5.2.1"
   resolved "https://registry.yarnpkg.com/@types/mocha/-/mocha-5.2.1.tgz#465450aaf5cec6f7d35523748c6cc89a5e222dc5"
 
-"@types/multer@^1.3.6":
-  version "1.3.6"
-  resolved "https://registry.yarnpkg.com/@types/multer/-/multer-1.3.6.tgz#e00454074bf9fd86d20ea652eba9850eb76604c4"
+"@types/multer@^1.3.8":
+  version "1.3.8"
+  resolved "https://registry.yarnpkg.com/@types/multer/-/multer-1.3.8.tgz#20e170a7b5c52a5c86aa555e2b586ae242d455a1"
   dependencies:
     "@types/express" "*"
 

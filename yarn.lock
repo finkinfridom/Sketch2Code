@@ -185,9 +185,9 @@
   dependencies:
     "@types/express" "*"
 
-"@types/node@*", "@types/node@^12.6.8":
-  version "12.6.8"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-12.6.8.tgz#e469b4bf9d1c9832aee4907ba8a051494357c12c"
+"@types/node@*", "@types/node@^12.7.11":
+  version "12.7.11"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-12.7.11.tgz#be879b52031cfb5d295b047f5462d8ef1a716446"
 
 "@types/range-parser@*":
   version "1.2.2"
